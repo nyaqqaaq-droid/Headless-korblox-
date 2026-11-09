@@ -1,0 +1,50 @@
+-- HEADLESS + KORBLOX STYLE
+-- R6 + R15 support
+
+local Players = game:GetService("Players")
+local player = Players.LocalPlayer
+
+local function apply()
+    local character = player.Character or player.CharacterAdded:Wait()
+
+    -- HEADLESS
+    local head = character:FindFirstChild("Head")
+    if head then
+        head.Transparency = 1
+
+        for _, obj in ipairs(head:GetDescendants()) do
+            if obj:IsA("Decal") then
+                obj.Transparency = 1
+            end
+        end
+    end
+
+    -- KORBLOX LEG EFFECT
+    local legNames = {
+        "Right Leg",       -- R6
+        "RightLowerLeg",   -- R15
+        "RightFoot"        -- R15
+    }
+
+    for _, name in ipairs(legNames) do
+        local leg = character:FindFirstChild(name)
+        if leg then
+            leg.Transparency = 1
+
+            for _, obj in ipairs(leg:GetDescendants()) do
+                if obj:IsA("BasePart") then
+                    obj.Transparency = 1
+                end
+            end
+        end
+    end
+end
+
+apply()
+
+player.CharacterAdded:Connect(function()
+    task.wait(1)
+    apply()
+end)
+
+print("Headless + Korblox effect applied!")
